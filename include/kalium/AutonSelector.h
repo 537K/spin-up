@@ -22,6 +22,6 @@ namespace kalium {
     void initButtons();
     void userTouchCallbackPressed();
     void userTouchCallbackReleased();
-
+    void init();
   }
 }

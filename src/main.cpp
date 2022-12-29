@@ -25,9 +25,8 @@ competition Competition;
 
 // define your global instances of motors and other devices here
 
-void pre_auton(void) { // Important: Only called upon first boot, NOT whenever robot is disabled
-  // Initializing Robot Configuration. DO NOT REMOVE!
-  vexcodeInit();
+void setup(void) { // Important: Only called upon first boot, NOT whenever robot is disabled
+  vexcodeInit(); // Initializing Robot Configuration. DO NOT REMOVE!
   
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
@@ -43,43 +42,19 @@ void auton(void) {
 }
 
 void usercontrol(void) {
-  // User control code here, inside the loop
   while (1) {
-    // This is the main execution loop for the user control program.
-    // Each time through the loop your program should update motor + servo
-    // values based on feedback from the joysticks.
-
-    // ........................................................................
-    // Insert user code here. This is where you use the joystick values to
-    // update your motors, etc.
-    // ........................................................................
-
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
 }
 
 int main() { // Entry point
-  // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(auton);
   Competition.drivercontrol(usercontrol);
 
-  pre_auton();
+  setup();
+  kalium::selector::init();
 
-  // register events for button selection
-  Brain.Screen.pressed(kalium::selector::userTouchCallbackPressed);
-  Brain.Screen.released(kalium::selector::userTouchCallbackReleased);
-
-  // make nice background
-  Brain.Screen.setFillColor( vex::color(0x404040) );
-  Brain.Screen.setPenColor( vex::color(0x404040) );
-  Brain.Screen.drawRectangle( 0, 0, 480, 120 );
-  Brain.Screen.setFillColor( vex::color(0x808080) );
-  Brain.Screen.setPenColor( vex::color(0x808080) );
-  Brain.Screen.drawRectangle( 0, 120, 480, 120 );
-
-  // initial display
-  kalium::selector::displayButtonControls(0, false);
 
   // Prevent main from exiting with an infinite loop.
   while (true) {

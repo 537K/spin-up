@@ -118,6 +118,22 @@ namespace kalium {
 
     // Insert 537K helper functions here
 
-  
+
+    void init() {
+      // register events for button selection
+      Brain.Screen.pressed(kalium::selector::userTouchCallbackPressed);
+      Brain.Screen.released(kalium::selector::userTouchCallbackReleased);
+
+      // make nice background
+      Brain.Screen.setFillColor( vex::color(0x404040) );
+      Brain.Screen.setPenColor( vex::color(0x404040) );
+      Brain.Screen.drawRectangle( 0, 0, 480, 120 );
+      Brain.Screen.setFillColor( vex::color(0x808080) );
+      Brain.Screen.setPenColor( vex::color(0x808080) );
+      Brain.Screen.drawRectangle( 0, 120, 480, 120 );
+
+      // initial display
+      kalium::selector::displayButtonControls(0, false);
+    }
   }
 }
