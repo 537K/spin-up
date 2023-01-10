@@ -9,15 +9,15 @@ brain  Brain;
 
 // VEXcode device constructors
 controller Controller1 = controller(primary);
-motor rollerMotor = motor(PORT8, ratio18_1, false);
-motor catapultMotorsMotorA = motor(PORT2, ratio36_1, false);
-motor catapultMotorsMotorB = motor(PORT3, ratio36_1, false);
-motor_group catapultMotors = motor_group(catapultMotorsMotorA, catapultMotorsMotorB);
-motor leftMotorA = motor(PORT6, ratio18_1, false);
-motor leftMotorB = motor(PORT1, ratio18_1, false);
+motor RollerMotor = motor(PORT8, ratio18_1, false);
+motor CatapultMotorsMotorA = motor(PORT1, ratio36_1, true);
+motor CatapultMotorsMotorB = motor(PORT2, ratio36_1, false);
+motor_group CatapultMotors = motor_group(CatapultMotorsMotorA, CatapultMotorsMotorB);
+motor leftMotorA = motor(PORT21, ratio18_1, false);
+motor leftMotorB = motor(PORT20, ratio18_1, false);
 motor_group LeftDriveSmart = motor_group(leftMotorA, leftMotorB);
-motor rightMotorA = motor(PORT4, ratio18_1, true);
-motor rightMotorB = motor(PORT5, ratio18_1, true);
+motor rightMotorA = motor(PORT19, ratio18_1, true);
+motor rightMotorB = motor(PORT18, ratio18_1, true);
 motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB);
 drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 295, 40, mm, 1);
 
@@ -79,27 +79,27 @@ int rc_auto_loop_function_Controller1() {
         RightDriveSmart.setVelocity(drivetrainRightSideSpeed, percent);
         RightDriveSmart.spin(forward);
       }
-      // check the ButtonL1/ButtonL2 status to control rollerMotor
+      // check the ButtonL1/ButtonL2 status to control RollerMotor
       if (Controller1.ButtonL1.pressing()) {
-        rollerMotor.spin(forward);
+        RollerMotor.spin(forward);
         Controller1LeftShoulderControlMotorsStopped = false;
       } else if (Controller1.ButtonL2.pressing()) {
-        rollerMotor.spin(reverse);
+        RollerMotor.spin(reverse);
         Controller1LeftShoulderControlMotorsStopped = false;
       } else if (!Controller1LeftShoulderControlMotorsStopped) {
-        rollerMotor.stop();
+        RollerMotor.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1LeftShoulderControlMotorsStopped = true;
       }
-      // check the ButtonR1/ButtonR2 status to control catapultMotors
+      // check the ButtonR1/ButtonR2 status to control CatapultMotors
       if (Controller1.ButtonR1.pressing()) {
-        catapultMotors.spin(forward);
+        CatapultMotors.spin(forward);
         Controller1RightShoulderControlMotorsStopped = false;
       } else if (Controller1.ButtonR2.pressing()) {
-        catapultMotors.spin(reverse);
+        CatapultMotors.spin(reverse);
         Controller1RightShoulderControlMotorsStopped = false;
       } else if (!Controller1RightShoulderControlMotorsStopped) {
-        catapultMotors.stop();
+        CatapultMotors.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1RightShoulderControlMotorsStopped = true;
       }

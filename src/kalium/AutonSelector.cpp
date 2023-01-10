@@ -1,24 +1,15 @@
 #include "vex.h"
 using namespace vex;
+
 #include "kalium/AutonSelector.h"
 
-// Code is adapted from Liam Donovan, CJ Crocker, James Pearman, and Pascal Chesnais
-// In the future, this will be rewritten using Andrew Simonsons button code
+//Code is adapted from Liam Donovan, CJ Crocker, James Pearman, and Pascal Chesnais
+//https://www.vexforum.com/t/walshbots-autonomous-feature-selector/51534
+//In the future, this will be rewritten using Andrew Simonson's button code
 
 namespace kalium {
   namespace selector {
     int autonomousSelection = -1;
-    // typedef struct _button {
-    //   int    xpos;
-    //   int    ypos;
-    //   int    width;
-    //   int    height;
-    //   bool   state;
-    //   color offColor;
-    //   color onColor;
-    //   const char *label;
-    // } button;
-
     // Button array definitions for each software button. The purpose of each button data structure
     // is defined above.  The array size can be extended, so you can have as many buttons as you 
     // wish as long as it fits.
