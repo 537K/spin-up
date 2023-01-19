@@ -14,7 +14,7 @@ namespace kalium {
     // is defined above.  The array size can be extended, so you can have as many buttons as you 
     // wish as long as it fits.
     button buttons[] = { 
-      {   30,  30, 60, 60,  false, 0xE00000, 0x0000E0, "Ally" },
+      {   30,  30, 60, 60,  false, 0xE00000, 0x0000E0, "Skills" },
       {  150,  30, 60, 60,  false, 0x303030, 0xD0D0D0, "Start" },
       {  270,  30, 60, 60,  false, 0x303030, 0xF700FF, "Park" },
       {  390,  30, 60, 60,  false, 0x303030, 0xDDDD00, "Shoot" },

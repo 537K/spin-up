@@ -8,18 +8,17 @@ using code = vision::code;
 brain  Brain;
 
 // VEXcode device constructors
-controller Controller1 = controller(primary);
-motor RollerMotor = motor(PORT8, ratio18_1, false);
-motor CatapultMotorsMotorA = motor(PORT1, ratio36_1, true);
-motor CatapultMotorsMotorB = motor(PORT2, ratio36_1, false);
-motor_group CatapultMotors = motor_group(CatapultMotorsMotorA, CatapultMotorsMotorB);
-motor leftMotorA = motor(PORT21, ratio18_1, false);
-motor leftMotorB = motor(PORT20, ratio18_1, false);
-motor_group LeftDriveSmart = motor_group(leftMotorA, leftMotorB);
-motor rightMotorA = motor(PORT19, ratio18_1, true);
-motor rightMotorB = motor(PORT18, ratio18_1, true);
-motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB);
+motor LeftDriveSmart = motor(PORT2, ratio18_1, false);
+motor RightDriveSmart = motor(PORT20, ratio18_1, true);
 drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 295, 40, mm, 1);
+motor catapultMotorsMotorA = motor(PORT1, ratio36_1, false);
+motor catapultMotorsMotorB = motor(PORT10, ratio36_1, true);
+motor_group catapultMotors = motor_group(catapultMotorsMotorA, catapultMotorsMotorB);
+motor intakeMotor = motor(PORT11, ratio18_1, false);
+controller Controller1 = controller(primary);
+motor rollerMotor = motor(PORT19, ratio18_1, false);
+limit limitSwitch = limit(Brain.ThreeWirePort.A);
+optical opticalSensor = optical(PORT3);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
@@ -27,6 +26,7 @@ bool RemoteControlCodeEnabled = true;
 // define variables used for controlling motors based on controller inputs
 bool Controller1LeftShoulderControlMotorsStopped = true;
 bool Controller1RightShoulderControlMotorsStopped = true;
+bool Controller1UpDownButtonsControlMotorsStopped = true;
 bool DrivetrainLNeedsToBeStopped_Controller1 = true;
 bool DrivetrainRNeedsToBeStopped_Controller1 = true;
 
@@ -79,29 +79,41 @@ int rc_auto_loop_function_Controller1() {
         RightDriveSmart.setVelocity(drivetrainRightSideSpeed, percent);
         RightDriveSmart.spin(forward);
       }
-      // check the ButtonL1/ButtonL2 status to control RollerMotor
+      // check the ButtonL1/ButtonL2 status to control intakeMotor
       if (Controller1.ButtonL1.pressing()) {
-        RollerMotor.spin(forward);
+        intakeMotor.spin(forward);
         Controller1LeftShoulderControlMotorsStopped = false;
       } else if (Controller1.ButtonL2.pressing()) {
-        RollerMotor.spin(reverse);
+        intakeMotor.spin(reverse);
         Controller1LeftShoulderControlMotorsStopped = false;
       } else if (!Controller1LeftShoulderControlMotorsStopped) {
-        RollerMotor.stop();
+        intakeMotor.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1LeftShoulderControlMotorsStopped = true;
       }
-      // check the ButtonR1/ButtonR2 status to control CatapultMotors
+      // check the ButtonR1/ButtonR2 status to control catapultMotors
       if (Controller1.ButtonR1.pressing()) {
-        CatapultMotors.spin(forward);
+        catapultMotors.spin(forward);
         Controller1RightShoulderControlMotorsStopped = false;
       } else if (Controller1.ButtonR2.pressing()) {
-        CatapultMotors.spin(reverse);
+        catapultMotors.spin(reverse);
         Controller1RightShoulderControlMotorsStopped = false;
       } else if (!Controller1RightShoulderControlMotorsStopped) {
-        CatapultMotors.stop();
+        catapultMotors.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1RightShoulderControlMotorsStopped = true;
+      }
+      // check the ButtonUp/ButtonDown status to control rollerMotor
+      if (Controller1.ButtonUp.pressing()) {
+        rollerMotor.spin(forward);
+        Controller1UpDownButtonsControlMotorsStopped = false;
+      } else if (Controller1.ButtonDown.pressing()) {
+        rollerMotor.spin(reverse);
+        Controller1UpDownButtonsControlMotorsStopped = false;
+      } else if (!Controller1UpDownButtonsControlMotorsStopped) {
+        rollerMotor.stop();
+        // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
+        Controller1UpDownButtonsControlMotorsStopped = true;
       }
     }
     // wait before repeating the process
