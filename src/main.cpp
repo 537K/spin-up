@@ -38,6 +38,7 @@ using namespace vex;
 // All custom systems are under kalium namespace
 #include "kalium/AutonSelector.h" // kalium::selector namespace
 #include "kalium/Autonomous.h"
+#include "kalium/pid.h"
 
 competition Competition;
 bool skills {false};
@@ -70,9 +71,7 @@ void usercontrol(void) {
   rollerMotor.setVelocity(50, percent);
   Drivetrain.driveFor(reverse, 1, inches, true);
   while (1) {
-    Controller1.Screen.print(rollerMotor.position(degrees));
-    Controller1.Screen.clearScreen();
-
+    kalium::PID::test();
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
@@ -87,25 +86,26 @@ int main() { // Entry point
   Competition.drivercontrol(usercontrol);
 
   setup();
-  kalium::selector::init();
+  // kalium::selector::init();
 
   kalium::autonomous::skills();
+  // usercontrol();
 
 
   // Prevent main from exiting with an infinite loop.
   while (true) {
     // Allow other tasks to run
-    if (!Competition.isEnabled()) {
-      Brain.Screen.setFont(fontType::mono40);
-    }
-    Brain.Screen.setFillColor(color(0xFFFFFF));
+    // if (!Competition.isEnabled()) {
+    //   Brain.Screen.setFont(fontType::mono40);
+    // }
+    // Brain.Screen.setFillColor(color(0xFFFFFF));
 
-    Brain.Screen.setPenColor(color(0xc11f27));
-    Brain.Screen.printAt(0, 135, "    Kalium 537K    ");
+    // Brain.Screen.setPenColor(color(0xc11f27));
+    // Brain.Screen.printAt(0, 135, "    Kalium 537K    ");
 
-    if (Controller1.ButtonA.pressing()) {
-      usercontrol();
-    }
+    // if (Controller1.ButtonA.pressing()) {
+    //   usercontrol();
+    // }
 
     // this_thread::sleep_for(10);
     wait(20, msec);

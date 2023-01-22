@@ -17,20 +17,20 @@ namespace kalium {
       //catapult.prime();
       //Drivetrain.driveFor(reverse, 5, inches);
       //roller.roll(red);
-      Drivetrain.driveFor(reverse, 1, inches, true);
+      Drivetrain.driveFor(forward, 1, inches, true);
       rollerMotor.spinFor(forward, 180, degrees, true);
-      Drivetrain.driveFor(forward, 20, inches, true);
+      Drivetrain.driveFor(reverse, 20, inches, true);
       Drivetrain.turnFor(right, 90, degrees, true);
-      Drivetrain.driveFor(reverse, 20, inches, true);
+      Drivetrain.driveFor(forward, 20, inches, true);
       rollerMotor.spinFor(forward, 180, degrees, true);
-      Drivetrain.driveFor(forward, 20, inches, true);
-      Drivetrain.turnFor(left, 90, degrees, true);
-      Drivetrain.driveFor(forward, 20 ,inches, true);
-      Drivetrain.turnFor(left, 90, degrees, true);
       Drivetrain.driveFor(reverse, 20, inches, true);
-      Drivetrain.driveFor(forward, 20, inches, true);
       Drivetrain.turnFor(left, 90, degrees, true);
+      Drivetrain.driveFor(reverse, 20 ,inches, true);
+      Drivetrain.turnFor(left, 90, degrees, true);
+      Drivetrain.driveFor(forward, 20, inches, true);
       Drivetrain.driveFor(reverse, 20, inches, true);
+      Drivetrain.turnFor(left, 90, degrees, true);
+      Drivetrain.driveFor(forward, 20, inches, true);
     }
     void anirudh() {
       // Skills

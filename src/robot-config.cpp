@@ -8,8 +8,8 @@ using code = vision::code;
 brain  Brain;
 
 // VEXcode device constructors
-motor LeftDriveSmart = motor(PORT2, ratio18_1, true);
-motor RightDriveSmart = motor(PORT20, ratio18_1, false);
+motor LeftDriveSmart = motor(PORT2, ratio18_1, false);
+motor RightDriveSmart = motor(PORT20, ratio18_1, true);
 drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 381, 215.89999999999998, mm, 1);
 motor catapultMotorsMotorA = motor(PORT1, ratio36_1, false);
 motor catapultMotorsMotorB = motor(PORT10, ratio36_1, true);
