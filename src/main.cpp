@@ -30,6 +30,8 @@ TODO
 // opticalSensor        optical       3               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
+#include <iostream>
+
 #include "vex.h"
 using namespace vex;
 
@@ -65,7 +67,12 @@ void auton(void) {
 
 
 void usercontrol(void) {
+  rollerMotor.setVelocity(50, percent);
+  Drivetrain.driveFor(reverse, 1, inches, true);
   while (1) {
+    Controller1.Screen.print(rollerMotor.position(degrees));
+    Controller1.Screen.clearScreen();
+
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
@@ -81,6 +88,9 @@ int main() { // Entry point
 
   setup();
   kalium::selector::init();
+
+  kalium::autonomous::skills();
+
 
   // Prevent main from exiting with an infinite loop.
   while (true) {
