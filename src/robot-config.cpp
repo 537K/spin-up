@@ -30,6 +30,9 @@ bool Controller1UpDownButtonsControlMotorsStopped = true;
 bool DrivetrainLNeedsToBeStopped_Controller1 = true;
 bool DrivetrainRNeedsToBeStopped_Controller1 = true;
 
+bool rollerMoving = false;
+bool rollerForward = false;
+
 // define a task that will handle monitoring inputs from Controller1
 int rc_auto_loop_function_Controller1() {
   // process the controller input every 20 milliseconds
@@ -79,6 +82,7 @@ int rc_auto_loop_function_Controller1() {
         RightDriveSmart.setVelocity(drivetrainRightSideSpeed, percent);
         RightDriveSmart.spin(forward);
       }
+
       // check the ButtonL1/ButtonL2 status to control intakeMotor
       if (Controller1.ButtonL1.pressing()) {
         intakeMotor.spin(forward);
@@ -104,10 +108,10 @@ int rc_auto_loop_function_Controller1() {
         Controller1RightShoulderControlMotorsStopped = true;
       }
       // check the ButtonUp/ButtonDown status to control rollerMotor
-      if (Controller1.ButtonUp.pressing()) {
+      if (Controller1.ButtonX.pressing()) {
         rollerMotor.spin(forward);
         Controller1UpDownButtonsControlMotorsStopped = false;
-      } else if (Controller1.ButtonDown.pressing()) {
+      } else if (Controller1.ButtonB.pressing()) {
         rollerMotor.spin(reverse);
         Controller1UpDownButtonsControlMotorsStopped = false;
       } else if (!Controller1UpDownButtonsControlMotorsStopped) {

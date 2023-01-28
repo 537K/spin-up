@@ -41,7 +41,7 @@ using namespace vex;
 #include "kalium/pid.h"
 
 competition Competition;
-bool skills {false};
+bool skills {true};
 
 void setup(void) { // Important: Only called upon first boot, NOT whenever robot is disabled
   vexcodeInit(); // Initializing Robot Configuration. DO NOT REMOVE!
@@ -58,6 +58,9 @@ void setup(void) { // Important: Only called upon first boot, NOT whenever robot
 }
 
 void auton(void) {
+  task autonPID(kalium::PID::drivePID);
+  // enableDrivePID = true;
+
   Drivetrain.setDriveVelocity(47, percent);
   Drivetrain.setTurnVelocity(47, percent);
 
@@ -71,7 +74,6 @@ void usercontrol(void) {
   rollerMotor.setVelocity(50, percent);
   Drivetrain.driveFor(reverse, 1, inches, true);
   while (1) {
-    kalium::PID::test();
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
@@ -86,10 +88,10 @@ int main() { // Entry point
   Competition.drivercontrol(usercontrol);
 
   setup();
-  // kalium::selector::init();
+  //kalium::selector::init();
 
-  kalium::autonomous::skills();
-  // usercontrol();
+  //kalium::autonomous::skills();
+  //usercontrol();
 
 
   // Prevent main from exiting with an infinite loop.

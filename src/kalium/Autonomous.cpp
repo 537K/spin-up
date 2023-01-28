@@ -14,23 +14,36 @@ namespace kalium {
       Drivetrain.setDriveVelocity(50, percent);
       Drivetrain.setTurnVelocity(50, percent);
       wait(2, seconds);
+      intakeMotor.spin(reverse);
       //catapult.prime();
       //Drivetrain.driveFor(reverse, 5, inches);
       //roller.roll(red);
-      Drivetrain.driveFor(forward, 1, inches, true);
+
+      // Roller 1
+      Drivetrain.driveFor(reverse, 1, inches);
       rollerMotor.spinFor(forward, 180, degrees, true);
-      Drivetrain.driveFor(reverse, 20, inches, true);
-      Drivetrain.turnFor(right, 90, degrees, true);
-      Drivetrain.driveFor(forward, 20, inches, true);
+      // Roller 2
+      Drivetrain.driveFor(forward, 19, inches, true);
+      Drivetrain.turnFor(right, 70, degrees, true);
+      Drivetrain.driveFor(reverse, 19, inches, true);
+      Drivetrain.driveFor(reverse, 1, inches);
       rollerMotor.spinFor(forward, 180, degrees, true);
-      Drivetrain.driveFor(reverse, 20, inches, true);
-      Drivetrain.turnFor(left, 90, degrees, true);
-      Drivetrain.driveFor(reverse, 20 ,inches, true);
-      Drivetrain.turnFor(left, 90, degrees, true);
-      Drivetrain.driveFor(forward, 20, inches, true);
-      Drivetrain.driveFor(reverse, 20, inches, true);
-      Drivetrain.turnFor(left, 90, degrees, true);
-      Drivetrain.driveFor(forward, 20, inches, true);
+      // Roller 3
+      Drivetrain.driveFor(forward, 3*24, inches, true);
+      Drivetrain.turnFor(left, 70, degrees, true);
+      Drivetrain.driveFor(forward, 24, inches, true);
+      Drivetrain.turnFor(right, 70, degrees, true);
+      Drivetrain.driveFor(forward, 24, inches, true);
+      Drivetrain.turnFor(right, 70, degrees, true);
+      Drivetrain.driveFor(reverse, 3*24, inches, true);
+      Drivetrain.driveFor(reverse, 1, inches);
+      rollerMotor.spinFor(forward, 180, degrees, true);
+      // Roller 4
+      Drivetrain.driveFor(forward, 19, inches, true);
+      Drivetrain.turnFor(right, 70, degrees, true);
+      Drivetrain.driveFor(reverse, 19, inches, true);
+      Drivetrain.driveFor(reverse, 1, inches);
+      rollerMotor.spinFor(forward, 180, degrees, true);
     }
     void anirudh() {
       // Skills
