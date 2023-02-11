@@ -16,6 +16,7 @@ extern controller Controller1;
 extern kalium::subsystems::Roller rollerMotor;
 extern limit limitSwitch;
 extern optical opticalSensor;
+extern digital_out Expansion;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

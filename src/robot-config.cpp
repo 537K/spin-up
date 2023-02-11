@@ -19,7 +19,7 @@ motor RightDriveMotorB = motor(PORT13, ratio18_1, false);
 motor_group RightDriveMotors = motor_group(RightDriveMotorA, RightDriveMotorB);
 drivetrain Drivetrain = drivetrain(LeftDriveMotors, RightDriveMotors, 319.19, 381, 215.89999999999998, mm, 1);
 motor CatapultMotorA = motor(PORT14, ratio36_1, false);
-motor CatapultMotorB = motor(PORT17, ratio36_1, false);
+motor CatapultMotorB = motor(PORT17, ratio36_1, true);
 motor_group catapultMotors = motor_group(CatapultMotorA, CatapultMotorB);
 kalium::subsystems::Roller intakeMotor = kalium::subsystems::Roller(PORT11, ratio18_1, false);
 controller Controller = controller(primary);
@@ -172,13 +172,10 @@ int rc_auto_loop_function_Controller() {
       }
 
       if (Controller.ButtonRight.pressing()) {
-        Expansion.set(true);
-      }
-      if (Controller.ButtonLeft.pressing()) {
         Expansion.set(false);
       }
-      if (Controller.ButtonDown.pressing()) {
-        kalium::auton::skills();
+      if (Controller.ButtonLeft.pressing()) {
+        Expansion.set(true);
       }
     }
     // wait before repeating the process
