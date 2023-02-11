@@ -1,26 +1,19 @@
+#pragma once
 #include "vex.h"
+using namespace vex;
 
 namespace kalium {
   namespace subsystems {
-    class Catapult {
-      private:
-        motor_group* motors;
-        limit* limitSwitch;
-      public:
-        Catapult(motor_group MotorGroup, limit lSwitch);
 
-        void prime();
-        void fire();
-    };
+      class Roller : public motor {
+        public:
+          Roller(int32_t port, gearSetting ratio, bool polarity) : motor(port, ratio, polarity) {
 
-    class Roller {
-      private:
-        motor* rollerMotor;
-        optical* sensor;
-      public:
-        Roller(motor motors, optical opticalSensor);
+          }
 
-        void roll(color Color);
+          bool mustRun;
+          bool ranLast;
+          directionType direction;
     };
   }
 }

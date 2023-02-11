@@ -1,4 +1,8 @@
+#pragma once
+#include "vex.h"
 using namespace vex;
+
+#include "kalium/subsystems.h"
 
 extern brain Brain;
 
@@ -7,9 +11,9 @@ extern drivetrain Drivetrain;
 extern motor LeftDriveSmart;
 extern motor RightDriveSmart;
 extern motor_group catapultMotors;
-extern motor intakeMotor;
+extern kalium::subsystems::Roller intakeMotor;
 extern controller Controller1;
-extern motor rollerMotor;
+extern kalium::subsystems::Roller rollerMotor;
 extern limit limitSwitch;
 extern optical opticalSensor;
 

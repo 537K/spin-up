@@ -1,12 +1,8 @@
-#include "kalium/subsystems.h"
-
 namespace kalium {
-  namespace autonomous {
-    // kalium::subsystems::Catapult catapult();
-    // kalium::subsystems::Roller roller();
-
+  namespace auton {
     void skills();
-    void anirudh();
-    void autonPeriod();
+    void closeRoller();
+    void farRoller();
+    void tieBreaker();
   }
 }

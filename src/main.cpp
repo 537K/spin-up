@@ -9,13 +9,13 @@
 
 /*
 TODO
-  Auton Scenarios
-    Rewrite selector
-  PID
-  Odometry?
-  PROS migration [VERY VERY long-term]
-  Disable turning roller motor
-  
+  - finish abstractions
+  - write basic auton selector
+  Later:
+  - test auton
+  - determine feasability of far roller auton period
+  - figure out why roller wasn;t working at highland games
+  - put cata in auton (limit switch)
 */
 
 // ---- START VEXCODE CONFIGURED DEVICES ----
@@ -36,12 +36,12 @@ TODO
 using namespace vex;
 
 // All custom systems are under kalium namespace
-#include "kalium/AutonSelector.h" // kalium::selector namespace
-#include "kalium/Autonomous.h"
+#include "kalium/selector.h" // kalium::selector namespace
+#include "kalium/autonomous.h"
 #include "kalium/pid.h"
 
 competition Competition;
-bool skills {true};
+int auton;
 
 void setup(void) { // Important: Only called upon first boot, NOT whenever robot is disabled
   vexcodeInit(); // Initializing Robot Configuration. DO NOT REMOVE!
@@ -55,22 +55,13 @@ void setup(void) { // Important: Only called upon first boot, NOT whenever robot
   catapultMotors.setStopping(hold);
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
+
+  kalium::autonomous::selector::draw();
+  auton = kalium::autonomous::selector::check();
 }
-
-void auton(void) {
-  task autonPID(kalium::PID::drivePID);
-  // enableDrivePID = true;
-
-  Drivetrain.setDriveVelocity(47, percent);
-  Drivetrain.setTurnVelocity(47, percent);
-
-  //Initialize capabilities for buttons
-  // Replace this with custom conditions relevant for spin up
-  skills = kalium::selector::buttons[0].state;
-}
-
 
 void usercontrol(void) {
+  Brain.Screen.clearScreen();
   rollerMotor.setVelocity(50, percent);
   Drivetrain.driveFor(reverse, 1, inches, true);
   while (1) {
@@ -80,36 +71,16 @@ void usercontrol(void) {
 }
 
 int main() { // Entry point
-  if (skills) {
-    Competition.autonomous(kalium::autonomous::skills);
-  } else {
-    Competition.autonomous(kalium::autonomous::autonPeriod);
-  }
-  Competition.drivercontrol(usercontrol);
-
   setup();
-  //kalium::selector::init();
+  
+  if (auton == 1)
+    Competition.autonomous(kalium::auton::skills);
+  else if (auton == 2)
+    Competition.autonomous(kalium::auton::farRoller);
+  else if (auton == 3)
+    Competition.autonomous(kalium::auton::closeRoller);
+  else if (auton == 4)
+    Competition.autonomous(kalium::auton::tieBreaker);
 
-  //kalium::autonomous::skills();
-  //usercontrol();
-
-
-  // Prevent main from exiting with an infinite loop.
-  while (true) {
-    // Allow other tasks to run
-    // if (!Competition.isEnabled()) {
-    //   Brain.Screen.setFont(fontType::mono40);
-    // }
-    // Brain.Screen.setFillColor(color(0xFFFFFF));
-
-    // Brain.Screen.setPenColor(color(0xc11f27));
-    // Brain.Screen.printAt(0, 135, "    Kalium 537K    ");
-
-    // if (Controller1.ButtonA.pressing()) {
-    //   usercontrol();
-    // }
-
-    // this_thread::sleep_for(10);
-    wait(20, msec);
-  }
+  Competition.drivercontrol(usercontrol);
 }
