@@ -6,17 +6,24 @@ using namespace vex;
 
 extern brain Brain;
 
-// VEXcode devices
+// VEXcode devicese
+
+extern motor LeftDriveMotorA;
+extern motor LeftDriveMotorB;
+extern motor_group LeftDriveMotors;
+extern motor RightDriveMotorA;
+extern motor RightDriveMotorB;
+extern motor_group RightDriveMotors;
 extern drivetrain Drivetrain;
-extern motor LeftDriveSmart;
-extern motor RightDriveSmart;
+extern motor CatapultMotorA;
+extern motor CatapultMotorB;
 extern motor_group catapultMotors;
 extern kalium::subsystems::Roller intakeMotor;
-extern controller Controller1;
+extern controller Controller;
 extern kalium::subsystems::Roller rollerMotor;
-extern limit limitSwitch;
-extern optical opticalSensor;
-extern digital_out Expansion;
+extern digital_out Expansion1;
+extern digital_out Expansion2;
+extern limit Switch;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

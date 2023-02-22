@@ -45,7 +45,8 @@ competition Competition;
 
 void setup(void) { // Important: Only called upon first boot, NOT whenever robot is disabled
   vexcodeInit(); // Initializing Robot Configuration. DO NOT REMOVE!
-  Expansion.set(false);
+  Expansion1.set(false);
+  Expansion2.set(false);
   Drivetrain.setDriveVelocity(87, percent);
   Drivetrain.setTurnVelocity(87, percent);
   
@@ -60,9 +61,71 @@ void setup(void) { // Important: Only called upon first boot, NOT whenever robot
   //auton = kalium::autonomous::selector::check();
 }
 
+// Tune here
+double kP = 0.0;
+double kI = 0.0;
+double kD = 0.0;
+double turnkP = 0.0;
+double turnkI = 0.0;
+double turnkD = 0.0;
+
+// Auton settings
+int desiredValue = 200;
+int desiredTurnValue = 0;
+
+int error;
+int previousError = 0;
+int derivative = 0;
+int totalError = 0;
+
+int turnError;
+int turnPreviousError = 0;
+int turnderivative = 0;
+int turnTotalError = 0;
+
+bool resetDriveSensor = false;
+bool enableDrivePID = false;
+
+int drivePID() {
+  while (enableDrivePID) {
+    if (resetDriveSensor) {
+      resetDriveSensor = false;
+      LeftDriveMotors.setPosition(0, degrees);
+      RightDriveMotors.setPosition(0, degrees);
+    }
+
+    int leftMotorPosition = LeftDriveMotors.position(degrees);
+    int rightMotorPosition = RightDriveMotors.position(degrees);
+
+    // Forward back motion
+    int averagePosition = (leftMotorPosition + rightMotorPosition) / 2;
+    error = averagePosition - desiredValue;
+    derivative = error - previousError;
+    totalError += error; //Integral
+
+    double lateralMotorPower = (error * kP) + (derivative * kD) + (totalError * kI);
+
+    // turning
+    int turnDifference = leftMotorPosition - rightMotorPosition;
+    turnError = turnDifference - desiredTurnValue;
+    turnderivative = turnError - turnPreviousError;
+    turnTotalError += turnError;
+    double turnMotorPower = (turnError * turnkP + turnderivative *turnkD + turnTotalError + turnkI) / 12.0;
+
+    LeftDriveMotors.spin(forward, lateralMotorPower + turnMotorPower, voltageUnits::volt);
+    RightDriveMotors.spin(forward, lateralMotorPower - turnMotorPower, voltageUnits::volt);
+
+    previousError = error;
+    turnPreviousError = turnError;
+    vex::task::sleep(20);
+  }
+  return 1;
+}
+
 void usercontrol(void) {
   Brain.Screen.clearScreen();
   rollerMotor.setVelocity(50, percent);
+  enableDrivePID = false; 
   //Drivetrain.driveFor(reverse, 1, inches, true);
   while (1) {
     wait(20, msec); // Sleep the task for a short amount of time to
@@ -71,7 +134,9 @@ void usercontrol(void) {
 }
 
 void autonControl(void) {
-  kalium::auton::closeRoller();
+  // vex::task PIDControl(drivePID);
+  // enableDrivePID = true;
+  kalium::auton::skills();
 }
 
 int main() { // Entry point
@@ -86,7 +151,7 @@ int main() { // Entry point
   // else if (auton == 4)
   //   Competition.autonomous(kalium::auton::tieBreaker);
 
-  Competition.autonomous(autonControl);
+  Competition.autonomous(kalium::auton::skills);
 
   Competition.drivercontrol(usercontrol);
 }

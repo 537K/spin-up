@@ -25,7 +25,9 @@ kalium::subsystems::Roller intakeMotor = kalium::subsystems::Roller(PORT11, rati
 controller Controller = controller(primary);
 kalium::subsystems::Roller rollerMotor = kalium::subsystems::Roller(PORT18, ratio18_1, false);
 
-digital_out Expansion = digital_out(Brain.ThreeWirePort.H);
+digital_out Expansion1 = digital_out(Brain.ThreeWirePort.H);
+digital_out Expansion2 = digital_out(Brain.ThreeWirePort.F);
+limit Switch = limit(Brain.ThreeWirePort.G);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
@@ -102,16 +104,28 @@ int rc_auto_loop_function_Controller() {
       //   ControllerLeftShoulderControlMotorsStopped = true;
       // }
       // check the ButtonR1/ButtonR2 status to control catapultMotors
-      if (Controller.ButtonR1.pressing()) {
-        catapultMotors.spin(forward);
-        ControllerRightShoulderControlMotorsStopped = false;
-      } else if (Controller.ButtonR2.pressing()) {
-        catapultMotors.spin(reverse);
-        ControllerRightShoulderControlMotorsStopped = false;
-      } else if (!ControllerRightShoulderControlMotorsStopped) {
+      // if (Controller.ButtonR1.pressing()) {
+      //   catapultMotors.spin(forward);
+      //   ControllerRightShoulderControlMotorsStopped = false;
+      // } else if (Controller.ButtonR2.pressing()) {
+      //   catapultMotors.spin(reverse);
+      //   ControllerRightShoulderControlMotorsStopped = false;
+      // } else if (!ControllerRightShoulderControlMotorsStopped) {
+      //   catapultMotors.stop();
+      //   // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
+      //   ControllerRightShoulderControlMotorsStopped = true;
+      // }
+
+      if (Controller.ButtonR2.pressing()) {
+        if (Switch.pressing()) {
+          catapultMotors.spin(reverse);
+          wait(0.25, seconds);
+          catapultMotors.stop();
+        }
+        while (Switch.pressing() == false) {
+          catapultMotors.spin(reverse);
+        }
         catapultMotors.stop();
-        // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
-        ControllerRightShoulderControlMotorsStopped = true;
       }
       // // check the ButtonUp/ButtonDown status to control rollerMotor
       // if (Controller.ButtonX.pressing()) {
@@ -172,10 +186,16 @@ int rc_auto_loop_function_Controller() {
       }
 
       if (Controller.ButtonRight.pressing()) {
-        Expansion.set(false);
+        Expansion1.set(true);
+        Expansion2.set(true);
       }
       if (Controller.ButtonLeft.pressing()) {
-        Expansion.set(true);
+        Expansion1.set(false);
+        Expansion2.set(false);
+      }
+
+      if (Controller.ButtonDown.pressing()) {
+        kalium::auton::skills();
       }
     }
     // wait before repeating the process
