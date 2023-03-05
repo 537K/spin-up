@@ -9,8 +9,25 @@ namespace kalium {
     // kalium::subsystems:://Catapult //catapult(//catapultMotors, limitSwitch);
     // kalium::subsystems:://Roller //roller(//rollerMotor, opticalSensor);
 
+    void primeCata() {
+      while (Switch.pressing() == false) {
+        catapultMotors.spin(reverse);
+      }
+      catapultMotors.stop();
+    }
+    
+    void fireCata() {
+      if (Switch.pressing()) {
+        catapultMotors.spin(reverse);
+        wait(0.25, seconds);
+        catapultMotors.stop();
+      }
+    }
+
     void skills() {
+      double time = Brain.Timer.time(seconds);
       //rollerMotor.setStopping(hold);
+      //primeCata();
       Drivetrain.setDriveVelocity(100, percent);
       Drivetrain.setTurnVelocity(100, percent);
       rollerMotor.setVelocity(20000, percent);
@@ -21,35 +38,75 @@ namespace kalium {
       //roller.roll(red);
 
       // Roller 1
-      rollerMotor.spinFor(forward, 3.5, turns, false);
+      rollerMotor.spinFor(forward, 6, turns, false);
       Drivetrain.driveFor(reverse, 1, inches, true);
+      
       // Roller 2
       Drivetrain.setDriveVelocity(50, percent);
       Drivetrain.setTurnVelocity(50, percent);
       Drivetrain.driveFor(forward, 19, inches, true);
-      //intakeMotor.spin(reverse);
+      intakeMotor.spin(reverse);
       wait(0.5, seconds);
-      Drivetrain.turnFor(right, 55, degrees, true);
+      Drivetrain.turnFor(right, 45, degrees, true);
       wait(0.5, seconds);
-      Drivetrain.driveFor(reverse, 19
-      , inches, true);
-      Drivetrain.turnFor(left, 5, degrees, true);
+      Drivetrain.driveFor(reverse, 18, inches, true);
+      //Drivetrain.turnFor(left, 5, degrees, true);
       wait(1, seconds);
 
       Drivetrain.setDriveVelocity(100, percent);
       Drivetrain.setTurnVelocity(100, percent);
-      rollerMotor.spinFor(forward, 0.5, turns, false);
+      rollerMotor.spinFor(forward, 1, turns, false);
       Drivetrain.driveFor(reverse, 1, inches, true);
+      Drivetrain.driveFor(forward, 1, inches, true);
 
       // Roller 3
       Drivetrain.setDriveVelocity(50, percent);
       Drivetrain.setTurnVelocity(50, percent);
       Drivetrain.driveFor(forward, 40, inches, true);
-      Drivetrain.turnFor(left, 55, degrees, true);
-      Drivetrain.driveFor(forward, 60, inches, true);
-      Drivetrain.turnFor(right, 60, degrees, true);
-      Drivetrain.driveFor(forward, 20, inches, true);
-      Drivetrain.turnFor(right, 30, degrees, true);
+      wait(0.5, seconds);
+      Drivetrain.turnFor(left, 45, degrees, true);
+      wait(0.5, seconds);
+      Drivetrain.driveFor(forward, 55, inches, true);
+      wait(0.5, seconds);
+      Drivetrain.turnFor(right, 45, degrees, true);
+      wait(0.5, seconds);
+      Drivetrain.driveFor(forward, 35, inches, true);
+      wait(0.5, seconds);
+      Drivetrain.turnFor(right, 50, degrees, true);
+      wait(0.5, seconds);
+      //Drivetrain.driveFor(reverse, 15, inches, true);
+
+      Drivetrain.setDriveVelocity(100, percent);
+      Drivetrain.setTurnVelocity(100, percent);
+      rollerMotor.spinFor(forward, 1, turns, false);
+      Drivetrain.driveFor(reverse, 4.5, inches, false);
+      wait(5, seconds);
+      Drivetrain.driveFor(forward, 4, inches, true);
+      Drivetrain.turnFor(45, degrees, true);
+
+      // Roller 4
+      // Drivetrain.setDriveVelocity(50, percent);
+      // Drivetrain.setTurnVelocity(50, percent);
+      // Drivetrain.driveFor(forward, 18, inches, true);
+      // intakeMotor.spin(reverse);
+      // wait(0.5, seconds);
+      // Drivetrain.turnFor(right, 45, degrees, true);
+      // wait(0.5, seconds);
+      // Drivetrain.driveFor(reverse, 3.5, inches, true);
+      // //Drivetrain.turnFor(left, 5, degrees, true);
+      // wait(1, seconds);
+
+      // Drivetrain.setDriveVelocity(100, percent);
+      // Drivetrain.setTurnVelocity(100, percent);
+      // rollerMotor.spinFor(forward, 1, turns, false);
+      // Drivetrain.driveFor(reverse, 1, inches, true);
+      // Drivetrain.driveFor(forward, 1, inches, true);
+
+      // Expansion
+      Expansion1.set(true);
+      Expansion2.set(true);
+
+      Brain.Screen.print(Brain.Timer.time(seconds) - time);
 
       // Drivetrain.driveFor(reverse, 1, inches);
       // rollerMotor.spinFor(forward, 180, degrees, true);
@@ -81,10 +138,14 @@ namespace kalium {
     void farRoller() {
 
     }
-    void closeRoller() {
-      rollerMotor.setStopping(hold);
-      Drivetrain.driveFor(reverse, 1, inches);
-      rollerMotor.spinFor(forward, 180, degrees, true);
-    }
+    // void closeRoller() {
+    //   Drivetrain.setDriveVelocity(100, percent);
+    //   Drivetrain.setTurnVelocity(100, percent);
+    //   rollerMotor.setVelocity(20000, percent);
+    //   wait(1, seconds);
+    //   // Roller 1
+    //   rollerMotor.spinFor(forward, 3.5, turns, false);
+    //   Drivetrain.driveFor(reverse, 1, inches, true);
+    // }
   }
 }

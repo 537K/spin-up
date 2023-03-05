@@ -11,8 +11,11 @@ namespace kalium {
 
           }
 
-          bool mustRun;
-          bool ranLast;
+          bool new_x_press = true;
+          bool new_b_press = true;
+          bool new_l1_press = true;
+          bool new_l2_press = true;
+          bool running = false;
           directionType direction;
     };
   }

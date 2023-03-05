@@ -41,6 +41,8 @@ using namespace vex;
 #include "kalium/pid.h"
 
 competition Competition;
+
+bool skills = true;
 // int auton;
 
 void setup(void) { // Important: Only called upon first boot, NOT whenever robot is disabled
@@ -124,7 +126,7 @@ int drivePID() {
 
 void usercontrol(void) {
   Brain.Screen.clearScreen();
-  rollerMotor.setVelocity(50, percent);
+  //rollerMotor.setVelocity(50, percent);
   enableDrivePID = false; 
   //Drivetrain.driveFor(reverse, 1, inches, true);
   while (1) {
@@ -136,7 +138,11 @@ void usercontrol(void) {
 void autonControl(void) {
   // vex::task PIDControl(drivePID);
   // enableDrivePID = true;
-  kalium::auton::skills();
+  if (skills) {
+    kalium::auton::skills();
+  }// else {
+  //   kalium::auton::closeRoller();
+  // }
 }
 
 int main() { // Entry point
@@ -151,7 +157,7 @@ int main() { // Entry point
   // else if (auton == 4)
   //   Competition.autonomous(kalium::auton::tieBreaker);
 
-  Competition.autonomous(kalium::auton::skills);
+  Competition.autonomous(autonControl);
 
   Competition.drivercontrol(usercontrol);
 }
